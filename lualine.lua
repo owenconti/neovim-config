@@ -1,4 +1,5 @@
 require("lualine").setup({
+  theme = 'spaceduck',
   sections = {
     lualine_a = { "mode" },
     lualine_b = { "filename" },

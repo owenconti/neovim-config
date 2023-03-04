@@ -6,29 +6,59 @@ require('mason-lspconfig').setup()
 -- Start specific LSP configuration
 require('lspconfig').tailwindcss.setup({})
 
+require('lspconfig').tsserver.setup({
+  on_attach = on_attach,
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+  cmd = { "typescript-language-server", "--stdio" }
+})
+
 require('lspconfig').volar.setup({
   filetypes = { 'vue' }
 })
 
+local navic = require("nvim-navic")
+navic.setup({
+  highlight = true
+})
+
+local on_attach = function(client, bufnr)
+  if client.server_capabilities.documentSymbolProvider then
+    navic.attach(client, bufnr)
+  end
+end
+
 require('lspconfig').eslint.setup({
+  on_attach = on_attach,
   on_init = function(client)
     vim.api.nvim_create_autocmd('BufWritePre', {
-      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue' },
+      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md' },
       command = 'EslintFixAll',
       group = vim.api.nvim_create_augroup('eslint-lsp-formatting', {}),
     })
   end,
 })
 
-require('lspconfig').psalm.setup({})
+-- require('lspconfig').psalm.setup({})
+--
+require('lspconfig').phpactor.setup({
+  on_attach = on_attach
+})
 
-require('lspconfig').phpactor.setup({})
-vim.cmd([[
-    augroup LspPhpactor
-      autocmd!
-      autocmd Filetype php command! -nargs=0 LspPhpactorReindex lua vim.lsp.buf_notify(0, "phpactor/indexer/reindex",{})
-    augroup END
-]])
+-- require('lspconfig').intelephense.setup({
+--   on_attach = on_attach,
+--   settings = {
+--     intelephense = {
+--       files = {
+--         maxSize = 100000;
+--       };
+--       diagnostics = {
+--         undefinedFunctions = true;
+--         undefinedMethods = true;
+--         undefinedTypes = false;
+--       }
+--     };
+--   },
+-- })
 
 -- End specific LSP configuration
 
@@ -46,22 +76,18 @@ null_ls.setup({
     null_ls.builtins.formatting.phpcsfixer,
     -- null_ls.builtins.formatting.eslint_d,
   },
-  -- on_attach = function(client, bufnr)
-  --   if client.supports_method("textDocument/formatting") then
-  --     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-  --     vim.api.nvim_create_autocmd("BufWritePre", {
-  --       group = augroup,
-  --       buffer = bufnr,
-  --       callback = function()
-  --         vim.lsp.buf.format({
-  --           filter = function(client)
-  --             -- apply whatever logic you want (in this example, we'll only use null-ls)
-  --             return client.name == "null-ls"
-  --           end,
-  --           bufnr = bufnr,
-  --         })
-  --       end,
-  --     })
-  --   end
-  -- end,
+  on_attach = function(client, bufnr)
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = augroup,
+        buffer = bufnr,
+        callback = function()
+          vim.lsp.buf.format({
+            bufnr = bufnr,
+          })
+        end,
+      })
+    end
+  end,
 })

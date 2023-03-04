@@ -2,18 +2,27 @@ local vim = vim
 
 -- VIM OPTIONS
 vim.g.mapleader = ' '
-vim.cmd [[colorscheme tokyonight-moon]]
 
 -- For nvim.tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+-- Copilot
+-- vim.g.copilot_no_tab_map = true
+-- vim.g.copilot_assume_mapped = true
+-- vim.g.copilot_tab_fallback = ""
+
 -- Global scope
+vim.opt.smartindent = true -- make indenting smarter again
+
+vim.o.whichwrap = "b,s,h,l"
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
 vim.o.timeoutlen = 500
 vim.o.termguicolors = true
 vim.o.syntax = 'on'
 vim.o.errorbells = false
 vim.o.smartcase = true
+vim.o.smartindent = true
 vim.o.showmode = false
 vim.o.backup = false
 vim.o.undodir = vim.fn.stdpath('config') .. '/undodir'
@@ -30,12 +39,20 @@ vim.o.expandtab = true
 vim.bo.swapfile = false
 vim.bo.autoindent = true
 vim.bo.smartindent = true
+vim.bo.textwidth = 0
 
 -- Window scope
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
-vim.wo.wrap = false
+vim.wo.wrap = true
+
+vim.cmd([[
+  set termguicolors
+
+  " colorscheme nightfly
+  colorscheme tokyonight-night
+]])
 
 -- Setup packer
 -- local execute = vim.api.nvim_command
