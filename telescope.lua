@@ -15,6 +15,15 @@ require('telescope').setup({
   },
   active = true,
   defaults = {
+    vimgrep_arguments = { -- ripgrep bug https://github.com/nvim-telescope/telescope.nvim/issues/2482#issuecomment-1528053505
+	    "rg",
+	    "--color=never",
+	    "--no-heading",
+	    "--with-filename",
+	    "--line-number",
+	    "--column",
+	    "--smart-case",
+    },
     layout_strategy = "horizontal",
     theme = 'tokyonight-moon',
     path_display = {

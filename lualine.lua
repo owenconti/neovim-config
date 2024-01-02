@@ -1,8 +1,19 @@
+local navic = require("nvim-navic")
+
 require("lualine").setup({
   theme = 'spaceduck',
+      winbar = {
+        lualine_c = {
+            {
+              function()
+                  return navic.get_location()
+              end,
+            },
+        }
+    },
   sections = {
     lualine_a = { "mode" },
-    lualine_b = { "filename" },
+    lualine_b = {  },
     lualine_x = {},
     lualine_y = {
       'branch',

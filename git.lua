@@ -8,6 +8,13 @@ require('gitsigns').setup({
     untracked    = { hl = 'GitSignsAdd'   , text = '┆', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'    },
   },
   numhl = true,
+  current_line_blame = false,
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'overlay', -- 'eol' | 'overlay' | 'right_align'
+    delay = 50,
+    ignore_whitespace = false,
+  },
   on_attach = function(bufnr)
     local gs = package.loaded.gitsigns
 

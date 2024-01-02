@@ -13,16 +13,15 @@ vim.g.loaded_netrwPlugin = 1
 -- vim.g.copilot_tab_fallback = ""
 
 -- Global scope
-vim.opt.smartindent = true -- make indenting smarter again
-
 vim.o.whichwrap = "b,s,h,l"
-vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+-- vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"
+-- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
 vim.o.timeoutlen = 500
 vim.o.termguicolors = true
 vim.o.syntax = 'on'
 vim.o.errorbells = false
 vim.o.smartcase = true
-vim.o.smartindent = true
+vim.o.smartindent = false
 vim.o.showmode = false
 vim.o.backup = false
 vim.o.undodir = vim.fn.stdpath('config') .. '/undodir'
@@ -38,7 +37,7 @@ vim.o.expandtab = true
 -- Buffer scope
 vim.bo.swapfile = false
 vim.bo.autoindent = true
-vim.bo.smartindent = true
+vim.bo.smartindent = false
 vim.bo.textwidth = 0
 
 -- Window scope
@@ -48,11 +47,24 @@ vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
 
 vim.cmd([[
-  set termguicolors
+  set foldmethod=indent
+  set foldlevel=99
 
-  " colorscheme nightfly
+  set t_Co=256
+  " set background=dark
+  "set background=light
+  "colorscheme shades_of_purple
   colorscheme tokyonight-night
+  " colorscheme github_light
+  " colorscheme github_dark
+  "colorscheme absent-light
+  "colorscheme nightfox
+  " colorscheme night-owl
+  " colorscheme purpura
+  " colorscheme punk
+  "colorscheme github_dark_default
 ]])
+
 
 -- Setup packer
 -- local execute = vim.api.nvim_command
@@ -63,11 +75,11 @@ vim.cmd([[
 --   execute 'packadd packer.nvim'
 -- end
 
-vim.cmd('packadd packer.nvim')
-
-local packer = require 'packer'
-local util = require 'packer.util'
-
-packer.init({
-  package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
-})
+-- vim.cmd('packadd packer.nvim')
+--
+-- local packer = require 'packer'
+-- local util = require 'packer.util'
+--
+-- packer.init({
+--   package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
+-- })
