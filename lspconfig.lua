@@ -5,24 +5,28 @@ require('mason-lspconfig').setup()
 
 require('lspconfig').tsserver.setup({
   on_attach = on_attach,
-  filetypes = { "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server", "--stdio" }
+  filetypes = { "typescript", "typescriptreact", "typescript.tsx", "vue" },
+  cmd = { "typescript-language-server", "--stdio" },
+  init_options = {
+    plugins = {
+      {
+        name = "@vue/typescript-plugin",
+        location = "/Users/owen/.nvm/versions/node/v18.18.2/lib/node_modules/@vue/typescript-plugin",
+        languages = { "javascript", "typescript", "vue" },
+      },
+    },
+  },
 })
 
 require('lspconfig').volar.setup({
   on_attach = on_attach,
-  filetypes = { 'vue', 'typescript' }
+  -- filetypes = { 'vue' }
 })
 
 -- Start specific LSP configuration
 require('lspconfig').tailwindcss.setup({})
 
 local on_attach = function(client, bufnr)
-  -- if client.server_capabilities.documentSymbolProvider then
-  --   navbuddy.attach(client, bufnr)
-    -- navic.attach(client, bufnr)
-  -- end
-
   if client.supports_method("textDocument/formatting") then
     vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
     vim.api.nvim_create_autocmd("BufWritePre", {
@@ -41,7 +45,7 @@ require('lspconfig').eslint.setup({
   on_attach = on_attach,
   on_init = function(client)
     vim.api.nvim_create_autocmd('BufWritePre', {
-      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md', '*.cjs' },
+      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md', '*.cjs', '*.php' },
       command = 'EslintFixAll',
       group = vim.api.nvim_create_augroup('eslint-lsp-formatting', {}),
     })

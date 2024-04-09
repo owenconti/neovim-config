@@ -25,10 +25,10 @@ utils.mapkey('', 'lsh', ':hsplit<CR>')
 utils.mapkey('', 'lw', '<C-w>')
 
 -- Line management
-utils.mapkey('', '<A-i>', ":m .-2<CR>==") -- move line up
-utils.mapkey('', '<A-k>', ":m .+1<CR>==") -- move line down
-utils.mapkey('v', '<A-i>', ":m '<-2<CR>gv=gv") -- move line up
-utils.mapkey('v', '<A-k>', ":m '>+1<CR>gv=gv") -- move line down
+utils.mapkey('', '<S-A-i>', ":m .-2<CR>==") -- move line up
+utils.mapkey('', '<S-A-k>', ":m .+1<CR>==") -- move line down
+utils.mapkey('v', '<S-A-i>', ":m '<-2<CR>gv=gv") -- move line up
+utils.mapkey('v', '<S-A-k>', ":m '>+1<CR>gv=gv") -- move line down
 utils.mapkey('', 'lzf', 'ViBzf'); -- Fold current position
 utils.mapkey('', 'lf', 'Vj%y')
 utils.mapkey('', 'lf', "Vj%y") -- Copy current function
@@ -45,8 +45,6 @@ utils.mapkey('', '<leader>gg', ':LazyGit<CR>')
 -- github copilot
 -- utils.mapkey('i', '<C-e>', '<cmd>copilot#Accept("")<CR>')
 --
--- random
-utils.mapkey('', '<leader>fml', '<cmd>CellularAutomaton make_it_rain<CR>')
 
 -- todo comments
 utils.mapkey('', 'gt', "<cmd>TodoTelescope<cr>", "Todo list")
@@ -87,24 +85,6 @@ vim.keymap.set('n', '<leader>ls', "<cmd>lua require('telescope.builtin').lsp_doc
 vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
 vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, {})
-
--- debugger
-local dap = require('dap')
-dap.adapters.php = {
-  type = 'executable',
-  command = 'node',
-  args = { '/Users/owen/development/vscode-php-debug/out/phpDebug.js' }
-}
-
-dap.configurations.php = {
-  {
-    type = 'php',
-    request = 'launch',
-    name = 'Listen for Xdebug',
-    port = 9003
-  }
-}
-
 
 -- which key labels
 local wk = require("which-key")

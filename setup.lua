@@ -33,6 +33,7 @@ vim.o.tabstop = 2
 vim.o.softtabstop = 2
 vim.o.shiftwidth = 2
 vim.o.expandtab = true
+vim.o.cursorline = true
 
 -- Buffer scope
 vim.bo.swapfile = false
@@ -46,23 +47,12 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
 
+vim.cmd 'colorscheme catppuccin-mocha'
+
 vim.cmd([[
   set foldmethod=indent
   set foldlevel=99
-
   set t_Co=256
-  " set background=dark
-  "set background=light
-  "colorscheme shades_of_purple
-  colorscheme tokyonight-night
-  " colorscheme github_light
-  " colorscheme github_dark
-  "colorscheme absent-light
-  "colorscheme nightfox
-  " colorscheme night-owl
-  " colorscheme purpura
-  " colorscheme punk
-  "colorscheme github_dark_default
 ]])
 
 

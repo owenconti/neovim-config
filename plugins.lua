@@ -6,7 +6,9 @@ packer.init({
 })
 
 return packer.startup(function(use)
-  use {
+  use 'tpope/vim-fugitive'
+  use { 'sainnhe/edge' }
+    use {
     'f-person/auto-dark-mode.nvim',
     config = function()
       local auto_dark_mode = require('auto-dark-mode')
@@ -14,11 +16,9 @@ return packer.startup(function(use)
         update_interval = 1000,
         set_dark_mode = function()
           vim.api.nvim_set_option('background', 'dark')
-          vim.cmd('colorscheme tokyonight-night')
+          vim.cmd('colorscheme catppucin-mocha')
         end,
         set_light_mode = function()
-          vim.g.edge_style = "light"
-          vim.g.edge_better_performance = 1
           vim.api.nvim_set_option('background', 'light')
           vim.cmd('colorscheme edge')
         end,
@@ -26,16 +26,17 @@ return packer.startup(function(use)
       auto_dark_mode.init()
     end
   }
-  use { "catppuccin/nvim", as = "catppuccin" }
-  use 'sainnhe/edge'
-  use 'marko-cerovac/material.nvim'
-  use { 'davidbachmann/vim-punk-colorscheme' }
-  use { 'yassinebridi/vim-purpura' }
-  use { 'haishanh/night-owl.vim' }
-  use { 'EdenEast/nightfox.nvim' }
-  use { 'Rigellute/shades-of-purple.vim' }
-  use { 'NLKNguyen/papercolor-theme' }
-  use { 'neanias/everforest-nvim' }
+  use {
+    "catppuccin/nvim",
+    as = "catppuccin",
+    config = function()
+      require('catppuccin').setup({
+        flavour = "mocha", -- latte, frappe, macchiato, mocha
+        term_colors = true,
+        transparent_background = true
+      })
+    end
+  }
   use { 'rainglow/vim' }
   use { 'projekt0n/github-nvim-theme', tag = 'v0.0.7' }
   use { 'wbthomason/packer.nvim' }
@@ -49,7 +50,7 @@ return packer.startup(function(use)
   use {
     "SmiteshP/nvim-navic",
     requires = "neovim/nvim-lspconfig",
-    config = function ()
+    config = function()
       local navic = require("nvim-navic")
       navic.setup({
         highlight = true,
@@ -63,11 +64,11 @@ return packer.startup(function(use)
   use {
     "SmiteshP/nvim-navbuddy",
     requires = {
-        "neovim/nvim-lspconfig",
-        "SmiteshP/nvim-navic",
-        "MunifTanjim/nui.nvim",
-        "numToStr/Comment.nvim",        -- Optional
-        "nvim-telescope/telescope.nvim" -- Optional
+      "neovim/nvim-lspconfig",
+      "SmiteshP/nvim-navic",
+      "MunifTanjim/nui.nvim",
+      "numToStr/Comment.nvim", -- Optional
+      "nvim-telescope/telescope.nvim" -- Optional
     },
     config = function()
       require('nvim-navbuddy').setup({
@@ -121,21 +122,11 @@ return packer.startup(function(use)
     end
   }
   use {
-    'nvim-tree/nvim-tree.lua',
-    requires = {
-      'nvim-tree/nvim-web-devicons'
-
-    },
+    'nvim-tree/nvim-tree.lua'
   }
-  use { 'folke/tokyonight.nvim' }
   use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
   use {
-    'nvim-lualine/lualine.nvim',
-    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
-  }
-  use {
-    'goolord/alpha-nvim',
-    requires = { 'nvim-tree/nvim-web-devicons' },
+    'nvim-lualine/lualine.nvim'
   }
   use {
     "folke/which-key.nvim",
@@ -149,7 +140,6 @@ return packer.startup(function(use)
   }
   use {
     "folke/trouble.nvim",
-    requires = "kyazdani42/nvim-web-devicons",
     config = function()
       require("trouble").setup {
         mode = 'document_diagnostics'
@@ -197,27 +187,6 @@ return packer.startup(function(use)
     end
   }
   use { "tveskag/nvim-blame-line" }
-  use {
-    "rcarriga/nvim-dap-ui",
-    requires = { "mfussenegger/nvim-dap" },
-    config = function()
-      local dap = require('dap')
-      dap.adapters.php = {
-        type = 'executable',
-        command = 'node',
-        args = { '/Users/owen/development/vscode-php-debug/out/phpDebug.js' }
-      }
-
-      dap.configurations.php = {
-        {
-          type = 'php',
-          request = 'launch',
-          name = 'Listen for Xdebug',
-          port = 9003
-        }
-      }
-    end
-  }
   use {
     "vim-test/vim-test",
     config = function()

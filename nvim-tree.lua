@@ -1,7 +1,7 @@
 require("nvim-tree").setup({
   git = {
-    enable = false,
-    ignore = false
+    enable = true,
+    ignore = true
   },
   view = {
     float = {
