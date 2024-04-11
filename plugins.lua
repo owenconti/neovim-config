@@ -8,24 +8,6 @@ packer.init({
 return packer.startup(function(use)
   use 'tpope/vim-fugitive'
   use { 'sainnhe/edge' }
-    use {
-    'f-person/auto-dark-mode.nvim',
-    config = function()
-      local auto_dark_mode = require('auto-dark-mode')
-      auto_dark_mode.setup({
-        update_interval = 1000,
-        set_dark_mode = function()
-          vim.api.nvim_set_option('background', 'dark')
-          vim.cmd('colorscheme catppucin-mocha')
-        end,
-        set_light_mode = function()
-          vim.api.nvim_set_option('background', 'light')
-          vim.cmd('colorscheme edge')
-        end,
-      })
-      auto_dark_mode.init()
-    end
-  }
   use {
     "catppuccin/nvim",
     as = "catppuccin",
@@ -35,14 +17,12 @@ return packer.startup(function(use)
         term_colors = true,
         transparent_background = true
       })
+      vim.cmd('set background=dark')
     end
   }
   use { 'rainglow/vim' }
-  use { 'projekt0n/github-nvim-theme', tag = 'v0.0.7' }
   use { 'wbthomason/packer.nvim' }
-  use { 'bluz71/vim-nightfly-colors' }
   use { 'github/copilot.vim' }
-  use { 'pineapplegiant/spaceduck' }
   use { 'kdheepak/lazygit.nvim' }
   use { "williamboman/mason-lspconfig.nvim" }
   use { "williamboman/mason.nvim" }
@@ -83,7 +63,6 @@ return packer.startup(function(use)
   }
   use { 'hrsh7th/cmp-nvim-lsp' }
   use { 'hrsh7th/cmp-buffer' }
-  -- use { 'hrsh7th/cmp-copilot' }
   use { 'nvim-lua/plenary.nvim' }
   use { "jose-elias-alvarez/null-ls.nvim" }
   use { 'nvim-treesitter/nvim-treesitter' }

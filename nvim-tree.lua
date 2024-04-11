@@ -1,7 +1,12 @@
 require("nvim-tree").setup({
+  renderer = {
+    icons = {
+      git_placement = "after"
+    }
+  },
   git = {
     enable = true,
-    ignore = true
+    ignore = false
   },
   view = {
     float = {

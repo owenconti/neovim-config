@@ -1,6 +1,5 @@
 require('owen.setup')
 require('owen.plugins')
--- require('owen.alpha')
 require('owen.cmp-nvim-lsp')
 require('owen.git')
 require('owen.lspconfig')

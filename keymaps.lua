@@ -73,6 +73,8 @@ vim.keymap.set('n', '<leader>fr', "<cmd>lua require('telescope.builtin').resume(
 vim.keymap.set('n', '<leader>fs', builtin.treesitter, {})
 vim.keymap.set('n', '<leader>fp', builtin.pickers, {})
 vim.keymap.set('n', '<leader>fo', "<cmd>lua require('telescope.builtin').oldfiles({only_cwd = true})<CR>")
+
+-- movement
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
 vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
 vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
@@ -80,11 +82,17 @@ vim.keymap.set('n', 'gbd', builtin.diagnostics, {})
 vim.keymap.set('n', 'gf', vim.diagnostic.open_float, {})
 vim.keymap.set('n', '<c-<space>>', vim.lsp.buf.signature_help, {})
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+
+-- diagnostics/formatting 
 vim.keymap.set('n', '<space>ld', "<cmd>lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>", {})
 vim.keymap.set('n', '<leader>ls', "<cmd>lua require('telescope.builtin').lsp_document_symbols({cwd = vim.fn.expand('%:p:h')})<CR>")
 vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
 vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, {})
+
+-- git commands
+utils.mapkey("", '<leader>gb', ':Git blame<CR>')
+utils.mapkey("", '<leader>gd', ':Gdiff<CR>')
 
 -- which key labels
 local wk = require("which-key")
@@ -102,70 +110,9 @@ wk.register({
     h = 'Help tags',
     o = 'Recent files'
   },
-  d = {
-    name = "Debug",
-    t = { "<cmd>lua require'dap'.toggle_breakpoint()<cr>", "Toggle Breakpoint" },
-    b = { "<cmd>lua require'dap'.step_back()<cr>", "Step Back" },
-    c = { "<cmd>lua require'dap'.continue()<cr>", "Continue" },
-    C = { "<cmd>lua require'dap'.run_to_cursor()<cr>", "Run To Cursor" },
-    d = { "<cmd>lua require'dap'.disconnect()<cr>", "Disconnect" },
-    g = { "<cmd>lua require'dap'.session()<cr>", "Get Session" },
-    i = { "<cmd>lua require'dap'.step_into()<cr>", "Step Into" },
-    o = { "<cmd>lua require'dap'.step_over()<cr>", "Step Over" },
-    u = { "<cmd>lua require'dap'.step_out()<cr>", "Step Out" },
-    p = { "<cmd>lua require'dap'.pause()<cr>", "Pause" },
-    r = { "<cmd>lua require'dap'.repl.toggle()<cr>", "Toggle Repl" },
-    s = { "<cmd>lua require'dap'.continue()<cr>", "Start" },
-    q = { "<cmd>lua require'dap'.close()<cr>", "Quit" },
-    U = { "<cmd>lua require'dapui'.toggle()<cr>", "Toggle UI" },
-  },
   g = {
     name = "Git",
     g = "Lazygit",
-    h = {
-      name = "+Github",
-      c = {
-        name = "+Commits",
-        c = { "<cmd>GHCloseCommit<cr>", "Close" },
-        e = { "<cmd>GHExpandCommit<cr>", "Expand" },
-        o = { "<cmd>GHOpenToCommit<cr>", "Open To" },
-        p = { "<cmd>GHPopOutCommit<cr>", "Pop Out" },
-        z = { "<cmd>GHCollapseCommit<cr>", "Collapse" },
-      },
-      i = {
-        name = "+Issues",
-        p = { "<cmd>GHPreviewIssue<cr>", "Preview" },
-      },
-      l = {
-        name = "+Litee",
-        t = { "<cmd>LTPanel<cr>", "Toggle Panel" },
-      },
-      r = {
-        name = "+Review",
-        b = { "<cmd>GHStartReview<cr>", "Begin" },
-        c = { "<cmd>GHCloseReview<cr>", "Close" },
-        d = { "<cmd>GHDeleteReview<cr>", "Delete" },
-        e = { "<cmd>GHExpandReview<cr>", "Expand" },
-        s = { "<cmd>GHSubmitReview<cr>", "Submit" },
-        z = { "<cmd>GHCollapseReview<cr>", "Collapse" },
-      },
-      p = {
-        name = "+Pull Request",
-        c = { "<cmd>GHClosePR<cr>", "Close" },
-        d = { "<cmd>GHPRDetails<cr>", "Details" },
-        e = { "<cmd>GHExpandPR<cr>", "Expand" },
-        o = { "<cmd>GHOpenPR<cr>", "Open" },
-        p = { "<cmd>GHPopOutPR<cr>", "PopOut" },
-        r = { "<cmd>GHRefreshPR<cr>", "Refresh" },
-        t = { "<cmd>GHOpenToPR<cr>", "Open To" },
-        z = { "<cmd>GHCollapsePR<cr>", "Collapse" },
-      },
-      t = {
-        name = "+Threads",
-        c = { "<cmd>GHCreateThread<cr>", "Create" },
-        n = { "<cmd>GHNextThread<cr>", "Next" },
-        t = { "<cmd>GHToggleThread<cr>", "Toggle" },
-      },
-    },
+    b = 'Git blame'
   }
 }, { prefix = "<leader>" })

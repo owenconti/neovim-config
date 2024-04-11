@@ -47,14 +47,11 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
 
-vim.cmd 'colorscheme catppuccin-mocha'
+vim.opt.background = 'dark'
+vim.opt.foldmethod = 'indent'
+vim.opt.foldlevel = 99
 
-vim.cmd([[
-  set foldmethod=indent
-  set foldlevel=99
-  set t_Co=256
-]])
-
+vim.cmd([[ colorscheme catppuccin-mocha ]])
 
 -- Setup packer
 -- local execute = vim.api.nvim_command
