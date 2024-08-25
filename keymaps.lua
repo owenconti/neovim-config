@@ -12,6 +12,9 @@ utils.mapkey('', '<leader>R', ':w | :e<CR>')
 utils.mapkey('', '<leader>t', ':FloatermNew --height=0.9 --width=0.8<CR>')
 utils.mapkey('', '<Esc>', '<C-\\><C-n>:CFloatTerm<CR>')
 
+-- No neck pain (centered buffers)
+utils.mapkey('', '<leader>nn', ':NoNeckPain<CR>')
+
 -- Search
 utils.mapkey('', 'ZZ', ":let @/ = ''<CR>") -- clear search
 -- utils.mapkey('', 'n', "nzz<CR>") -- center search result
@@ -42,12 +45,6 @@ utils.mapkey('', 'ga', 'ggVG') -- select entire file
 utils.mapkey('', 'gl', ':Gitsigns toggle_current_line_blame<CR>');
 utils.mapkey('', '<leader>gg', ':LazyGit<CR>')
 
--- github copilot
--- utils.mapkey('i', '<C-e>', '<cmd>copilot#Accept("")<CR>')
---
-
--- todo comments
-utils.mapkey('', 'gt', "<cmd>TodoTelescope<cr>", "Todo list")
 
 -- nvim-tree
 utils.mapkey('', '<leader>e', ':NvimTreeFindFileToggle<CR>')
@@ -94,25 +91,33 @@ vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, {})
 utils.mapkey("", '<leader>gb', ':Git blame<CR>')
 utils.mapkey("", '<leader>gd', ':Gdiff<CR>')
 
+-- chatgpt commands
+utils.mapkey("", '<leader>vo', ':ChatGPTRun optimize_code<CR>')
+utils.mapkey("", '<leader>ve', ':ChatGPTEditWithInstructions<CR>')
+utils.mapkey("", '<leader>vg', ':ChatGPTRun grammar_correction<CR>')
+
 -- which key labels
 local wk = require("which-key")
-wk.register({
-  c = "Close buffer",
-  q = "Quit nvim",
-  w = "Write buffer",
-  e = "Open explorer to current file",
-  E = "Toggle explorer",
-  f = {
-    name = "Files...",
-    f = 'Find files',
-    g = 'File search',
-    b = 'Find buffers',
-    h = 'Help tags',
-    o = 'Recent files'
-  },
-  g = {
-    name = "Git",
-    g = "Lazygit",
-    b = 'Git blame'
-  }
-}, { prefix = "<leader>" })
+wk.add({
+  { "<leader>E", desc = "Toggle explorer" },
+  { "<leader>c", desc = "Close buffer" },
+  { "<leader>e", desc = "Open explorer to current file" },
+
+  { "<leader>v", group = "ChatGPT" },
+  { "<leader>ve", desc = "Edit with instruction" },
+  { "<leader>vo", desc = "Optimize code" },
+  { "<leader>vg", desc = "Grammar correction" },
+
+  { "<leader>f", group = "Files..." },
+  { "<leader>fb", desc = "Find buffers" },
+  { "<leader>ff", desc = "Find files" },
+  { "<leader>fg", desc = "File search" },
+  { "<leader>fh", desc = "Help tags" },
+  { "<leader>fo", desc = "Recent files" },
+
+  { "<leader>g", group = "Git" },
+  { "<leader>gb", desc = "Git blame" },
+  { "<leader>gg", desc = "Lazygit" },
+  { "<leader>q", desc = "Quit nvim" },
+  { "<leader>w", desc = "Write buffer" },
+})

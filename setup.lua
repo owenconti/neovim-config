@@ -1,5 +1,12 @@
 local vim = vim
 
+-- vim.filetype.add({
+--  extension = {
+--   templ = "templ",
+--  },
+-- })
+vim.cmd([[ autocmd BufNewFile,BufRead *.templ setfiletype templ ]])
+
 -- VIM OPTIONS
 vim.g.mapleader = ' '
 
@@ -36,7 +43,7 @@ vim.o.expandtab = true
 vim.o.cursorline = true
 
 -- Buffer scope
-vim.bo.swapfile = false
+-- vim.bo.swapfgle = false
 vim.bo.autoindent = true
 vim.bo.smartindent = false
 vim.bo.textwidth = 0
@@ -47,11 +54,9 @@ vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
 
-vim.opt.background = 'dark'
+vim.opt.background = 'light'
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
-
-vim.cmd([[ colorscheme catppuccin-mocha ]])
 
 -- Setup packer
 -- local execute = vim.api.nvim_command
