@@ -58,6 +58,10 @@ vim.opt.background = 'light'
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 
+-- recommended by avante plugin
+vim.opt.laststatus = 3
+vim.opt.splitkeep = "screen"
+
 -- Setup packer
 -- local execute = vim.api.nvim_command
 -- local fn = vim.fn

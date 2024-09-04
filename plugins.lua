@@ -6,15 +6,55 @@ packer.init({
 })
 
 return packer.startup(function(use)
+  use {
+    "yetone/avante.nvim",
+    branch = "main",
+    config = function()
+      require("avante").setup({
+          hints = {
+            enabled = false
+          },
+          windows = {
+            width = 50
+          },
+          mappings = {
+            ask = "<leader>aa",
+            edit = "<leader>ae",
+            refresh = "<leader>ar",
+            --- @class AvanteConflictMappings
+            diff = {
+              ours = "<leader>ao",
+              theirs = "<leader>at",
+              none = "c0",
+              both = "<leader>ab",
+              next = "]x",
+              prev = "[x",
+            },
+            jump = {
+              next = "]]",
+              prev = "[[",
+            },
+         },
+      })
+    end,
+    requires = {
+      "nvim-tree/nvim-web-devicons",
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+    }
+  }
+  -- Themes
+  use 'Mofiqul/dracula.nvim'
+  -- use 'projekt0n/github-nvim-theme'
+  -- use "rebelot/kanagawa.nvim"
+  -- use "eldritch-theme/eldritch.nvim"
+  use "rose-pine/neovim"
+
+
+  -- Plugins
   use { "sheerun/vim-polyglot" }
   use {"shortcuts/no-neck-pain.nvim", tag = "*" }
-  use({
-    'projekt0n/github-nvim-theme',
-    config = function()
-      require('github-theme').setup({ })
-      vim.cmd('colorscheme github_light')
-    end
-  })
   use({
     "jackMort/ChatGPT.nvim",
     config = function()
@@ -63,9 +103,7 @@ return packer.startup(function(use)
       require('git-conflict').setup()
     end
   }
-  use {
-    'lewis6991/gitsigns.nvim',
-  }
+  use {'lewis6991/gitsigns.nvim'}
   use({
     "kylechui/nvim-surround",
     tag = "*", -- Use for stability; omit to use `main` branch for the latest features
@@ -83,22 +121,51 @@ return packer.startup(function(use)
     end
   }
   use {
-    'nvim-tree/nvim-tree.lua'
-  }
-  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
-  use {
-    'nvim-lualine/lualine.nvim'
-  }
-  use {
-    "folke/which-key.nvim",
+    'nvim-tree/nvim-tree.lua',
     config = function()
-      require("which-key").setup {
-        -- your configuration comes here
-        -- or leave it empty to use the default settings
-        -- refer to the configuration section below
-      }
+      local HEIGHT_RATIO = 0.8
+      local WIDTH_RATIO = 0.5
+
+      require("nvim-tree").setup({
+          git = {
+            enable = true,
+            ignore = false,
+            timeout = 500,
+          },
+          view = {
+            relativenumber = true,
+            float = {
+              enable = true,
+              open_win_config = function()
+                local screen_w = vim.opt.columns:get()
+                local screen_h = vim.opt.lines:get() - vim.opt.cmdheight:get()
+                local window_w = screen_w * WIDTH_RATIO
+                local window_h = screen_h * HEIGHT_RATIO
+                local window_w_int = math.floor(window_w)
+                local window_h_int = math.floor(window_h)
+                local center_x = (screen_w - window_w) / 2
+                local center_y = ((vim.opt.lines:get() - window_h) / 2) - vim.opt.cmdheight:get()
+
+                return {
+                  border = "rounded",
+                  relative = "editor",
+                  row = center_y,
+                  col = center_x,
+                  width = window_w_int,
+                  height = window_h_int,
+                }
+              end,
+            },
+            width = function()
+              return math.floor(vim.opt.columns:get() * WIDTH_RATIO)
+            end,
+        }
+      })
     end
   }
+  use { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
+  use {'nvim-lualine/lualine.nvim'}
+  use {"folke/which-key.nvim"}
   use {
     "folke/trouble.nvim",
     config = function()
@@ -139,9 +206,17 @@ return packer.startup(function(use)
   use {
     "vim-test/vim-test",
     config = function()
-      vim.cmd('let g:test#php#runner = "sail"')
-      vim.cmd('let test#php#phpunit#executable = "vendor/bin/sail test"')
+      vim.cmd('let g:test#php#runner = "phpunit"')
+      vim.cmd('let test#php#phpunit#executable = "docker-compose -f docker-compose.custom.yml run --rm php-cli php artisan test"')
       vim.cmd('let test#neovim#term_position = "vert"')
     end
   }
+
+  -- Set the colorscheme at the end to ensure it has been loaded
+  -- vim.cmd('colorscheme dracula')
+  -- vim.cmd('colorscheme github_light')
+  -- vim.cmd('colorscheme kanagawa-wave')
+  -- vim.cmd('colorscheme eldritch')
+  vim.cmd('colorscheme rose-pine-main')
+
 end)

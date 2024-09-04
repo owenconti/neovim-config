@@ -1,6 +1,9 @@
 local navic = require("nvim-navic")
 
 require("lualine").setup({
+  options = {
+    theme = 'dracula-nvim'
+  },
   winbar = {
     lualine_c = {
       {

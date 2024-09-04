@@ -34,7 +34,15 @@ lspconfig.volar.setup({
   }
 })
 
-lspconfig.tailwindcss.setup({})
+lspconfig.tailwindcss.setup({
+  settings = {
+    tailwindCSS = {
+      files = {
+        exclude = { "node_modules", ".git", ".cache", "vendor", "public", "storage", "bootstrap" },
+      }
+    } 
+  }
+})
 
 lspconfig.eslint.setup({
   on_init = function(client)
@@ -44,7 +52,6 @@ lspconfig.eslint.setup({
       group = vim.api.nvim_create_augroup('eslint-lsp-formatting', {}),
     })
   end,
-  cmd = { "eslint_d", "--stdio" },
 })
 
 lspconfig.stylelint_lsp.setup{
