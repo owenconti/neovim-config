@@ -54,7 +54,26 @@ return packer.startup(function(use)
 
   -- Plugins
   use { "sheerun/vim-polyglot" }
-  use {"shortcuts/no-neck-pain.nvim", tag = "*" }
+  use {
+    "shortcuts/no-neck-pain.nvim",
+    tag = "*",
+    config = function()
+        require("no-neck-pain").setup({
+          width = 80,
+          buffers = {
+            right = {
+              enabled = false,
+            },
+            scratchPad = {
+                enabled = true,
+            },
+            bo = {
+                filetype = "md"
+            },
+          },
+      })
+    end
+  }
   use({
     "jackMort/ChatGPT.nvim",
     config = function()
@@ -116,9 +135,6 @@ return packer.startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     requires = { { 'nvim-lua/plenary.nvim' }, { "kdheepak/lazygit.nvim" } },
-    config = function()
-      require("telescope").load_extension("lazygit")
-    end
   }
   use {
     'nvim-tree/nvim-tree.lua',
