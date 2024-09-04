@@ -222,9 +222,24 @@ return packer.startup(function(use)
       }
     end
   }
-  use {'numToStr/Comment.nvim'}
-  use {"windwp/nvim-ts-autotag"}
-  use {"windwp/nvim-autopairs"}
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup({})
+    end
+  }
+  use {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end
+  }
+  use {
+    "windwp/nvim-autopairs",
+    config = function()
+      require("nvim-autopairs").setup {}
+    end
+  }
   use { 'editorconfig/editorconfig-vim' }
   use {
     "phaazon/hop.nvim",
