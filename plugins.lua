@@ -7,6 +7,38 @@ packer.init({
 
 return packer.startup(function(use)
   use {
+    'nvimdev/dashboard-nvim',
+    event = 'VimEnter',
+    config = function()
+      require('dashboard').setup {
+        theme = 'hyper',
+        config = {
+          shortcut = {},
+          header = {
+            '      ___           ___           ___           ___                       ___     ',
+            '     /\\__\\         /\\  \\         /\\  \\         /\\__\\          ___        /\\__\\    ',
+            '    /::|  |       /::\\  \\       /::\\  \\       /:/  /         /\\  \\      /::|  |   ',
+            '   /:|:|  |      /:/\\:\\  \\     /:/\\:\\  \\     /:/  /          \\:\\  \\    /:|:|  |   ',
+            '  /:/|:|  |__   /::\\~\\:\\  \\   /:/  \\:\\  \\   /:/__/  ___      /::\\__\\  /:/|:|__|__ ',
+            ' /:/ |:| /\\__\\ /:/\\:\\ \\:\\__\\ /:/__/ \\:\\__\\  |:|  | /\\__\\  __/:/\\/__/ /:/ |::::\\__\\',
+            ' \\/__|:|/:/  / \\:\\~\\:\\ \\/__/ \\:\\  \\ /:/  /  |:|  |/:/  / /\\/:/  /    \\/__/~~/:/  /',
+            '     |:/:/  /   \\:\\ \\:\\__\\    \\:\\  /:/  /   |:|__/:/  /  \\::/__/           /:/  / ',
+            '     |::/  /     \\:\\ \\/__/     \\:\\/:/  /     \\::::/__/    \\:\\__\\          /:/  /  ',
+            '     /:/  /       \\:\\__\\        \\::/  /       ~~~~         \\/__/         /:/  /   ',
+            '     \\/__/         \\/__/         \\/__/                                   \\/__/    ',
+          },
+          week_header = {
+            enable = false
+          },
+          packages = { enable = false },
+          project = { enable = false },
+          footer = {},
+        }
+      }
+    end,
+    requires = {'nvim-tree/nvim-web-devicons'}
+  }
+  use {
     "yetone/avante.nvim",
     branch = "main",
     config = function()
@@ -190,24 +222,9 @@ return packer.startup(function(use)
       }
     end
   }
-  use {
-    'numToStr/Comment.nvim',
-    config = function()
-      require('Comment').setup({})
-    end
-  }
-  use {
-    "windwp/nvim-ts-autotag",
-    config = function()
-      require("nvim-ts-autotag").setup()
-    end
-  }
-  use {
-    "windwp/nvim-autopairs",
-    config = function()
-      require("nvim-autopairs").setup({})
-    end
-  }
+  use {'numToStr/Comment.nvim'}
+  use {"windwp/nvim-ts-autotag"}
+  use {"windwp/nvim-autopairs"}
   use { 'editorconfig/editorconfig-vim' }
   use {
     "phaazon/hop.nvim",
