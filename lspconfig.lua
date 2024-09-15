@@ -20,7 +20,7 @@ local on_attach = function(client, bufnr)
 end,
 
 
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
   cmd = { "typescript-language-server", "--stdio" },
 })
