@@ -214,6 +214,7 @@ return packer.startup(function(use)
     "vim-test/vim-test",
     config = function()
       vim.cmd('let g:test#php#runner = "phpunit"')
+      vim.cmd('let test#php#pest#executable = "docker-compose -f docker-compose.custom.yml run --rm php-cli php artisan test"')
       vim.cmd('let test#php#phpunit#executable = "docker-compose -f docker-compose.custom.yml run --rm php-cli php artisan test"')
       vim.cmd('let test#neovim#term_position = "vert"')
     end
