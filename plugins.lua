@@ -6,6 +6,20 @@ packer.init({
 })
 
 return packer.startup(function(use)
+  use {'psliwka/vim-smoothie'}
+  use({
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup({
+        formatters_by_ft = {
+          php = {'php_cs_fixer'}
+        },
+        format_after_save = {
+          timeout_ms = 1000,
+        },
+      })
+    end,
+  })
   use {
     'nvimdev/dashboard-nvim',
     event = 'VimEnter',
@@ -38,46 +52,8 @@ return packer.startup(function(use)
     end,
     requires = {'nvim-tree/nvim-web-devicons'}
   }
-  use {
-    "yetone/avante.nvim",
-    branch = "main",
-    config = function()
-      require("avante").setup({
-          hints = {
-            enabled = false
-          },
-          windows = {
-            width = 50
-          },
-          mappings = {
-            ask = "<leader>aa",
-            edit = "<leader>ae",
-            refresh = "<leader>ar",
-            --- @class AvanteConflictMappings
-            diff = {
-              ours = "<leader>ao",
-              theirs = "<leader>at",
-              none = "c0",
-              both = "<leader>ab",
-              next = "]x",
-              prev = "[x",
-            },
-            jump = {
-              next = "]]",
-              prev = "[[",
-            },
-         },
-      })
-    end,
-    requires = {
-      "nvim-tree/nvim-web-devicons",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-    }
-  }
   -- Themes
-  use 'Mofiqul/dracula.nvim'
+  -- use 'Mofiqul/dracula.nvim'
   -- use 'projekt0n/github-nvim-theme'
   -- use "rebelot/kanagawa.nvim"
   -- use "eldritch-theme/eldritch.nvim"

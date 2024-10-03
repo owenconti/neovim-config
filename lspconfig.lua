@@ -19,6 +19,7 @@ local on_attach = function(client, bufnr)
   end
 end,
 
+lspconfig.eslint.setup({})
 
 lspconfig.ts_ls.setup({
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
@@ -44,15 +45,6 @@ lspconfig.tailwindcss.setup({
   }
 })
 
-lspconfig.eslint.setup({
-  on_init = function(client)
-    vim.api.nvim_create_autocmd('BufWritePre', {
-      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md', '*.cjs' },
-      command = 'EslintFixAll',
-      group = vim.api.nvim_create_augroup('eslint-lsp-formatting', {}),
-    })
-  end,
-})
 
 lspconfig.stylelint_lsp.setup{
   settings = {
@@ -64,14 +56,22 @@ lspconfig.stylelint_lsp.setup{
   filetypes = {"css"}
 }
 
-lspconfig.phpactor.setup({
-  on_attach = on_attach,
+lspconfig.intelephense.setup({
   init_options = {
-    ["completion_worse.completor.docblock.enabled"] = false,
-    ["language_server_completion.trim_leading_dollar"] = true,
-    ["language_server_php_cs_fixer.enabled"] = true
-  }
+    licenseKey = os.getenv('INTELEPHENSE_LICENSE_KEY')
+  },
 })
+
+-- lspconfig.phpactor.setup({
+--   init_options = {
+--     ["logging.enabled"] = true,
+--     ["logging.level"] = "debug",
+--     ["logging.path"] = "/tmp/phpactor.log",
+--     ["completion_worse.completor.docblock.enabled"] = false,
+--     ["language_server_completion.trim_leading_dollar"] = true,
+--     ["language_server_php_cs_fixer.enabled"] = true
+--   }
+-- })
 
 -- Increase timeout to allow phpcsfixer and eslint_d to format files without timing out
 vim.lsp.buf.format({ timeout_ms = 5000 })
