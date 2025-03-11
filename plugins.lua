@@ -98,7 +98,6 @@ return packer.startup(function(use)
   use 'tpope/vim-fugitive'
   use { 'sainnhe/edge' }
   use { 'wbthomason/packer.nvim' }
-  use { 'github/copilot.vim' }
   use { 'kdheepak/lazygit.nvim' }
   use { "williamboman/mason-lspconfig.nvim" }
   use { "williamboman/mason.nvim" }
