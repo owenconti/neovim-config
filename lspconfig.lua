@@ -19,7 +19,15 @@ local on_attach = function(client, bufnr)
   end
 end,
 
-lspconfig.eslint.setup({})
+lspconfig.eslint.setup({
+  on_init = function(client)
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md', '*.cjs' },
+      command = 'EslintFixAll',
+      group = vim.api.nvim_create_augroup('eslint-lsp-formatting', {}),
+    })
+  end,
+})
 
 lspconfig.ts_ls.setup({
   filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
