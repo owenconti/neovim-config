@@ -1,8 +1,9 @@
 local vim = vim
 
--- wbthomason/packer.nvim still calls vim.tbl_islist; Neovim 0.10+ deprecates it in favor of vim.islist.
-if vim.islist then
-  vim.tbl_islist = vim.islist
+-- Neovim: `vim.highlight` is deprecated in favor of `vim.hl` (see :help vim.highlight).
+-- Some plugins still read `vim.highlight` at load time; alias once before any plugin runs.
+if vim.hl then
+  vim.highlight = vim.hl
 end
 
 -- vim.filetype.add({
@@ -18,11 +19,6 @@ vim.g.mapleader = ' '
 -- For nvim.tree
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
-
--- Copilot
--- vim.g.copilot_no_tab_map = true
--- vim.g.copilot_assume_mapped = true
--- vim.g.copilot_tab_fallback = ""
 
 -- Global scope
 vim.o.whichwrap = "b,s,h,l"
@@ -63,24 +59,11 @@ vim.opt.background = 'light'
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 
--- recommended by avante plugin
 vim.opt.laststatus = 3
 vim.opt.splitkeep = "screen"
 
--- Setup packer
--- local execute = vim.api.nvim_command
--- local fn = vim.fn
--- local install_path = fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
--- if fn.empty(fn.glob(install_path)) > 0 then
---   execute('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
---   execute 'packadd packer.nvim'
--- end
-
--- vim.cmd('packadd packer.nvim')
---
--- local packer = require 'packer'
--- local util = require 'packer.util'
---
--- packer.init({
---   package_root = util.join_paths(vim.fn.stdpath('data'), 'site', 'pack')
--- })
+-- Optional Vim hosts: disable so :checkhealth does not warn when these executables are absent.
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
