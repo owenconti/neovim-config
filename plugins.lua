@@ -6,7 +6,15 @@ packer.init({
 })
 
 return packer.startup(function(use)
-  use {'psliwka/vim-smoothie'}
+  -- Themes
+  -- use 'Mofiqul/dracula.nvim'
+  -- use 'projekt0n/github-nvim-theme'
+  -- use "rebelot/kanagawa.nvim"
+  -- use "eldritch-theme/eldritch.nvim"
+  use { 'rose-pine/neovim', branch = 'main' }
+
+
+  -- Plugins
   use({
     "stevearc/conform.nvim",
     config = function()
@@ -52,15 +60,6 @@ return packer.startup(function(use)
     end,
     requires = {'nvim-tree/nvim-web-devicons'}
   }
-  -- Themes
-  -- use 'Mofiqul/dracula.nvim'
-  -- use 'projekt0n/github-nvim-theme'
-  -- use "rebelot/kanagawa.nvim"
-  -- use "eldritch-theme/eldritch.nvim"
-  use "rose-pine/neovim"
-
-
-  -- Plugins
   use { "sheerun/vim-polyglot" }
   use {
     "shortcuts/no-neck-pain.nvim",
@@ -83,18 +82,25 @@ return packer.startup(function(use)
       })
     end
   }
-  use({
-    "jackMort/ChatGPT.nvim",
+  use {
+    'yetone/avante.nvim',
+    branch = 'main',
+    run = 'make',
     config = function()
-      require("chatgpt").setup()
+      require('avante').setup()
     end,
     requires = {
-      "MunifTanjim/nui.nvim",
       "nvim-lua/plenary.nvim",
-      "folke/trouble.nvim",
-      "nvim-telescope/telescope.nvim"
+      "MunifTanjim/nui.nvim",
+      "MeanderingProgrammer/render-markdown.nvim",
+      "hrsh7th/nvim-cmp",
+      "nvim-tree/nvim-web-devicons",
+      "HakonHarnes/img-clip.nvim",
+      "zbirenbaum/copilot.lua",
+      "stevearc/dressing.nvim",
+      "folke/snacks.nvim"
     }
-  })
+  }
   use 'tpope/vim-fugitive'
   use { 'sainnhe/edge' }
   use { 'wbthomason/packer.nvim' }
@@ -196,7 +202,8 @@ return packer.startup(function(use)
   }
 
   use {
-    "f-person/auto-dark-mode.nvim",
+    'f-person/auto-dark-mode.nvim',
+    branch = 'main',
     config = function()
       require('auto-dark-mode').setup({
         update_interval = 1000,

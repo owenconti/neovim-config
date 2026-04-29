@@ -1,5 +1,10 @@
 local vim = vim
 
+-- wbthomason/packer.nvim still calls vim.tbl_islist; Neovim 0.10+ deprecates it in favor of vim.islist.
+if vim.islist then
+  vim.tbl_islist = vim.islist
+end
+
 -- vim.filetype.add({
 --  extension = {
 --   templ = "templ",

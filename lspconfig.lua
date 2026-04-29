@@ -1,26 +1,12 @@
 local vim = vim
-local lspconfig = require('lspconfig')
 
 require('mason').setup()
-require('mason-lspconfig').setup()
 
-local on_attach = function(client, bufnr)
-  if client.supports_method("textDocument/formatting") then
-    vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      group = augroup,
-      buffer = bufnr,
-      callback = function()
-        vim.lsp.buf.format({
-          bufnr = bufnr,
-        })
-      end,
-    })
-  end
-end,
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lspconfig.eslint.setup({
-  on_init = function(client)
+vim.lsp.config('eslint', {
+  capabilities = capabilities,
+  on_init = function()
     vim.api.nvim_create_autocmd('BufWritePre', {
       pattern = { '*.tsx', '*.ts', '*.jsx', '*.js', '*.vue', '*.md', '*.cjs' },
       command = 'EslintFixAll',
@@ -29,44 +15,48 @@ lspconfig.eslint.setup({
   end,
 })
 
-lspconfig.ts_ls.setup({
-  filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
-  cmd = { "typescript-language-server", "--stdio" },
+vim.lsp.config('ts_ls', {
+  capabilities = capabilities,
+  filetypes = { 'typescript', 'typescriptreact', 'typescript.tsx' },
+  cmd = { 'typescript-language-server', '--stdio' },
 })
 
-lspconfig.volar.setup({
+vim.lsp.config('volar', {
+  capabilities = capabilities,
   filetypes = { 'vue' },
   init_options = {
     vue = {
-      hybridMode = false
+      hybridMode = false,
     },
-  }
+  },
 })
 
-lspconfig.tailwindcss.setup({
+vim.lsp.config('tailwindcss', {
+  capabilities = capabilities,
   settings = {
     tailwindCSS = {
       files = {
-        exclude = { "node_modules", ".git", ".cache", "vendor", "public", "storage", "bootstrap" },
-      }
-    } 
-  }
+        exclude = { 'node_modules', '.git', '.cache', 'vendor', 'public', 'storage', 'bootstrap' },
+      },
+    },
+  },
 })
 
-
-lspconfig.stylelint_lsp.setup{
+vim.lsp.config('stylelint_lsp', {
+  capabilities = capabilities,
   settings = {
     stylelintplus = {
       autoFixOnSave = true,
       autoFixOnFormat = true,
-    }
+    },
   },
-  filetypes = {"css"}
-}
+  filetypes = { 'css' },
+})
 
-lspconfig.intelephense.setup({
+vim.lsp.config('intelephense', {
+  capabilities = capabilities,
   init_options = {
-    licenseKey = os.getenv('INTELEPHENSE_LICENSE_KEY')
+    licenseKey = os.getenv('INTELEPHENSE_LICENSE_KEY'),
   },
 })
 
@@ -81,5 +71,27 @@ lspconfig.intelephense.setup({
 --   }
 -- })
 
--- Increase timeout to allow phpcsfixer and eslint_d to format files without timing out
-vim.lsp.buf.format({ timeout_ms = 5000 })
+local lsp_format_save = vim.api.nvim_create_augroup('lsp-format-on-save', {})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-format-attach', {}),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client or not client:supports_method(vim.lsp.protocol.Methods.textDocument_formatting) then
+      return
+    end
+    vim.api.nvim_clear_autocmds({ group = lsp_format_save, buffer = args.buf })
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      group = lsp_format_save,
+      buffer = args.buf,
+      callback = function()
+        vim.lsp.buf.format({
+          bufnr = args.buf,
+          timeout_ms = 5000,
+        })
+      end,
+    })
+  end,
+})
+
+require('mason-lspconfig').setup()
