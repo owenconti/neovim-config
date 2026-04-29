@@ -8,11 +8,51 @@ return {
     config = function()
       require('conform').setup({
         formatters_by_ft = {
-          php = { 'php_cs_fixer' },
+          javascript = { 'oxfmt' },
+          javascriptreact = { 'oxfmt' },
+          typescript = { 'oxfmt' },
+          typescriptreact = { 'oxfmt' },
+          vue = { 'oxfmt' },
+          json = { 'oxfmt' },
+          jsonc = { 'oxfmt' },
+          json5 = { 'oxfmt' },
+          markdown = { 'oxfmt' },
+          html = { 'oxfmt' },
+          css = { 'oxfmt' },
+          yaml = { 'oxfmt' },
+          toml = { 'oxfmt' },
         },
-        format_after_save = {
-          timeout_ms = 1000,
-        },
+        -- Align with Diagonal: `source.fixAll.oxc` then `source.format.oxc` (oxfmt). PHP uses `.vscode/run-on-save`, not conform.
+        format_on_save = function(bufnr)
+          local ft = vim.bo[bufnr].filetype
+          if ft == 'php' then
+            return nil
+          end
+          local oxc = {
+            typescript = true,
+            typescriptreact = true,
+            javascript = true,
+            javascriptreact = true,
+            vue = true,
+            json = true,
+            jsonc = true,
+            json5 = true,
+            markdown = true,
+            html = true,
+            css = true,
+            yaml = true,
+            toml = true,
+          }
+          if not oxc[ft] then
+            return nil
+          end
+          pcall(function()
+            vim.api.nvim_buf_call(bufnr, function()
+              vim.cmd('silent! LspOxlintFixAll')
+            end)
+          end)
+          return { timeout_ms = 5000, lsp_format = 'never' }
+        end,
       })
     end,
   },

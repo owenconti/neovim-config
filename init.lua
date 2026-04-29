@@ -28,6 +28,7 @@ require('lazy').setup(require('owen.lazy-plugins'), {
 require('owen.cmp-nvim-lsp')
 require('owen.git')
 require('owen.lspconfig')
+require('owen.php-on-save')
 require('owen.lualine')
 require('owen.nvim-tree')
 require('owen.telescope')
