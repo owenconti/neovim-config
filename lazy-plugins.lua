@@ -2,6 +2,7 @@
 
 return {
   { 'rose-pine/neovim', name = 'rose-pine', branch = 'main' },
+  { 'projekt0n/github-nvim-theme' },
 
   {
     'stevearc/conform.nvim',
@@ -113,8 +114,70 @@ return {
     end,
   },
 
+  {
+    'carlos-algms/agentic.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      { 'HakonHarnes/img-clip.nvim', opts = {} },
+    },
+    ---@type agentic.PartialUserConfig
+    opts = {
+      -- Built-ins include codex-acp, cursor-acp, claude-agent-acp, gemini-acp, opencode-acp, …
+      provider = 'codex-acp',
+    },
+    keys = {
+      {
+        '<C-\\>',
+        function()
+          require('agentic').toggle()
+        end,
+        mode = { 'n', 'v', 'i' },
+        desc = 'Toggle Agentic Chat',
+      },
+      {
+        "<C-'>",
+        function()
+          require('agentic').add_selection_or_file_to_context()
+        end,
+        mode = { 'n', 'v' },
+        desc = 'Add file or selection to Agentic context',
+      },
+      {
+        '<C-,>',
+        function()
+          require('agentic').new_session()
+        end,
+        mode = { 'n', 'v', 'i' },
+        desc = 'New Agentic Session',
+      },
+      {
+        '<A-i>r',
+        function()
+          require('agentic').restore_session()
+        end,
+        mode = { 'n', 'v', 'i' },
+        desc = 'Agentic restore session',
+      },
+      {
+        '<leader>ad',
+        function()
+          require('agentic').add_current_line_diagnostics()
+        end,
+        mode = { 'n' },
+        desc = 'Add current line diagnostics to Agentic',
+      },
+      {
+        '<leader>aD',
+        function()
+          require('agentic').add_buffer_diagnostics()
+        end,
+        mode = { 'n' },
+        desc = 'Add buffer diagnostics to Agentic',
+      },
+    },
+  },
+
   { 'tpope/vim-fugitive' },
-  { 'sainnhe/edge' },
   { 'kdheepak/lazygit.nvim' },
 
   { 'mason-org/mason.nvim' },
@@ -246,10 +309,12 @@ return {
       require('auto-dark-mode').setup({
         update_interval = 1000,
         set_dark_mode = function()
-          vim.cmd.colorscheme('rose-pine-main')
+          vim.opt.background = 'dark'
+          vim.cmd.colorscheme('github_dark_default')
         end,
         set_light_mode = function()
-          vim.cmd.colorscheme('edge')
+          vim.opt.background = 'light'
+          vim.cmd.colorscheme('github_light')
         end,
       })
     end,

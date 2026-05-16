@@ -70,6 +70,15 @@ vim.keymap.set('n', '<leader>fr', "<cmd>lua require('telescope.builtin').resume(
 vim.keymap.set('n', '<leader>fs', builtin.treesitter, {})
 vim.keymap.set('n', '<leader>fp', builtin.pickers, {})
 vim.keymap.set('n', '<leader>fo', "<cmd>lua require('telescope.builtin').oldfiles({only_cwd = true})<CR>")
+vim.keymap.set('n', '<leader>gf', function()
+  builtin.git_status({
+    layout_config = {
+      horizontal = {
+        preview_width = 0.75,
+      },
+    },
+  })
+end, {})
 
 -- movement
 vim.keymap.set('n', 'gr', builtin.lsp_references, {})
@@ -117,6 +126,7 @@ wk.add({
 
   { "<leader>g", group = "Git" },
   { "<leader>gb", desc = "Git blame" },
+  { "<leader>gf", desc = "Git file status" },
   { "<leader>gg", desc = "Lazygit" },
   { "<leader>q", desc = "Quit nvim" },
   { "<leader>w", desc = "Write buffer" },

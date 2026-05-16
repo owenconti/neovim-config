@@ -112,6 +112,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
 require('mason-lspconfig').setup({
   automatic_enable = {
     -- Prefer oxlint; uninstall Mason `eslint` if you no longer need it.
-    exclude = { 'eslint' },
+    -- Psalm requires psalm.xml (or psalm.xml.dist) in the project; without it the LSP exits with code 1.
+    -- Intelephense already covers PHP IDE features; enable Psalm only in repos that use it (remove from exclude).
+    exclude = { 'eslint', 'psalm' },
   },
 })

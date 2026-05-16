@@ -2,7 +2,11 @@ local navic = require("nvim-navic")
 
 require("lualine").setup({
   options = {
-    theme = 'auto'
+    theme = 'auto',
+    disabled_filetypes = {
+      statusline = { 'AgenticChat', 'AgenticInput', 'AgenticCode', 'AgenticFiles', 'AgenticDiagnostics' },
+      winbar = { 'AgenticChat', 'AgenticInput', 'AgenticCode', 'AgenticFiles', 'AgenticDiagnostics' },
+    },
   },
   winbar = {
     lualine_c = {

@@ -54,6 +54,7 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
+vim.opt.smoothscroll = true
 
 vim.opt.background = 'light'
 vim.opt.foldmethod = 'indent'

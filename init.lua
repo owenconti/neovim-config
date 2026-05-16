@@ -34,5 +34,3 @@ require('owen.nvim-tree')
 require('owen.telescope')
 -- treesitter: configured from lazy.nvim `config` on nvim-treesitter (see lazy-plugins.lua)
 require('owen.keymaps')
-
-vim.cmd.colorscheme('rose-pine-main')
