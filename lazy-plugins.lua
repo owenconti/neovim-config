@@ -1,5 +1,28 @@
 -- Plugin specs for lazy.nvim (see init.lua bootstrap).
 
+local treesitter_languages = {
+  'bash',
+  'c',
+  'css',
+  'html',
+  'javascript',
+  'json',
+  'jsonc',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'php',
+  'python',
+  'query',
+  'toml',
+  'tsx',
+  'typescript',
+  'vim',
+  'vimdoc',
+  'vue',
+  'yaml',
+}
+
 return {
   { 'rose-pine/neovim', name = 'rose-pine', branch = 'main' },
   { 'projekt0n/github-nvim-theme' },
@@ -202,10 +225,12 @@ return {
   { 'hrsh7th/cmp-buffer' },
   { 'nvim-lua/plenary.nvim' },
   {
-    -- `main` is a full rewrite (no `nvim-treesitter.configs`); `master` stays compatible with Nvim 0.11 + your setup.
     'nvim-treesitter/nvim-treesitter',
-    branch = 'master',
-    build = ':TSUpdate',
+    branch = 'main',
+    dependencies = { 'neovim-treesitter/treesitter-parser-registry' },
+    build = function()
+      require('nvim-treesitter').install(treesitter_languages):wait(300000)
+    end,
     config = function()
       require('owen.treesitter')
     end,
@@ -278,17 +303,6 @@ return {
   },
 
   { 'editorconfig/editorconfig-vim' },
-
-  {
-    'phaazon/hop.nvim',
-    branch = 'v2',
-    event = 'BufRead',
-    config = function()
-      require('hop').setup()
-      vim.keymap.set('n', 's', ':HopChar2<CR>', { silent = true })
-      vim.keymap.set('n', 'S', ':HopWord<CR>', { silent = true })
-    end,
-  },
 
   {
     'vim-test/vim-test',

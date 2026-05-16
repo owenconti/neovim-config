@@ -6,6 +6,12 @@ if vim.hl then
   vim.highlight = vim.hl
 end
 
+vim.env.PATH = table.concat({
+  '/opt/homebrew/bin',
+  '/usr/local/bin',
+  vim.env.PATH,
+}, ':')
+
 -- vim.filetype.add({
 --  extension = {
 --   templ = "templ",

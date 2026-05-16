@@ -1,5 +1,3 @@
-local previewers = require('telescope.previewers')
-
 require('telescope').setup({
   pickers = {
     find_files = {
@@ -13,11 +11,6 @@ require('telescope').setup({
           return filename .. " " .. filename .. " " .. path
         end,
       },
-    },
-    live_grep = {
-      preview = {
-        treesitter = false,
-      },
     }
   },
   extensions = {
@@ -30,7 +23,6 @@ require('telescope').setup({
   },
   active = true,
   defaults = {
-    grep_previewer = previewers.vimgrep.new,
     vimgrep_arguments = { -- ripgrep bug https://github.com/nvim-telescope/telescope.nvim/issues/2482#issuecomment-1528053505
 	    "rg",
 	    "--color=never",
@@ -59,3 +51,25 @@ require('telescope').setup({
 })
 require('telescope').load_extension('fzf')
 require("telescope").load_extension("lazygit")
+
+vim.api.nvim_create_autocmd("User", {
+  pattern = "TelescopePreviewerLoaded",
+  callback = function(args)
+    if args.data.title ~= "Grep Preview" then
+      return
+    end
+
+    local ok, action_state = pcall(require, "telescope.actions.state")
+    if not ok then
+      return
+    end
+
+    local query = action_state.get_current_line()
+    if query == "" then
+      return
+    end
+
+    pcall(vim.fn.matchdelete, vim.w.telescope_grep_match_id)
+    vim.w.telescope_grep_match_id = vim.fn.matchadd("TelescopePreviewMatch", vim.fn.escape(query, [[\/.*$^~[]]))
+  end,
+})
