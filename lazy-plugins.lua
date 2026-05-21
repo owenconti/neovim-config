@@ -309,9 +309,17 @@ return {
     config = function()
       vim.cmd([[
         let g:test#php#runner = "phpunit"
-        let test#php#pest#executable = "docker-compose -f docker-compose.custom.yml run --rm php-cli php artisan test"
-        let test#php#phpunit#executable = "docker-compose -f docker-compose.custom.yml run --rm php-cli php artisan test"
+        let test#php#pest#executable = "docker compose run --rm php-cli php artisan test"
+        let test#php#phpunit#executable = "docker compose run --rm php-cli php artisan test"
         let test#neovim#term_position = "vert"
+
+        function! TestRemoveColorsTransform(cmd) abort
+          return substitute(a:cmd, ' --colors', '', 'g')
+        endfunction
+
+        let g:test#custom_transformations = get(g:, 'test#custom_transformations', {})
+        let g:test#custom_transformations['remove_colors'] = function('TestRemoveColorsTransform')
+        let g:test#transformation = 'remove_colors'
       ]])
     end,
   },
