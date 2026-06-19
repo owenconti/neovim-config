@@ -21,6 +21,36 @@ local languages = {
   'yaml',
 }
 
+local filetypes = {
+  'bash',
+  'c',
+  'css',
+  'html',
+  'javascript',
+  'javascriptreact',
+  'json',
+  'jsonc',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'php',
+  'python',
+  'query',
+  'toml',
+  'tsx',
+  'typescript',
+  'typescriptreact',
+  'vim',
+  'vimdoc',
+  'vue',
+  'yaml',
+}
+
+local language_by_filetype = {
+  javascriptreact = 'javascript',
+  typescriptreact = 'tsx',
+}
+
 local indent_disabled = {
   python = true,
   yaml = true,
@@ -36,9 +66,13 @@ local function setup_main()
     install_dir = vim.fn.stdpath('data') .. '/site',
   })
 
+  for filetype, language in pairs(language_by_filetype) do
+    vim.treesitter.language.register(language, filetype)
+  end
+
   vim.api.nvim_create_autocmd('FileType', {
     group = vim.api.nvim_create_augroup('OwenTreesitter', { clear = true }),
-    pattern = languages,
+    pattern = filetypes,
     callback = function(args)
       pcall(vim.treesitter.start, args.buf)
 

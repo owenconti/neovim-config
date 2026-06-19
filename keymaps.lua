@@ -60,8 +60,14 @@ utils.mapkey("", 'tr', ':TestLast<CR>')
 
 -- telescope
 local builtin = require('telescope.builtin')
+local lsp_telescope = require('owen.lsp-telescope')
+local telescope_search = require('owen.telescope-search')
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
-vim.keymap.set('n', '<leader>fF', "<cmd>lua require('telescope.builtin').find_files({no_ignore = true})<CR>", {})
+vim.keymap.set('n', '<leader>fF', function()
+  builtin.find_files({
+    find_command = telescope_search.rg_find_command,
+  })
+end, {})
 vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
 vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
 vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
@@ -81,9 +87,9 @@ vim.keymap.set('n', '<leader>gf', function()
 end, {})
 
 -- movement
-vim.keymap.set('n', 'gr', builtin.lsp_references, {})
-vim.keymap.set('n', 'gd', builtin.lsp_definitions, {})
-vim.keymap.set('n', 'gi', builtin.lsp_implementations, {})
+vim.keymap.set('n', 'gr', lsp_telescope.references, {})
+vim.keymap.set('n', 'gd', lsp_telescope.definitions, {})
+vim.keymap.set('n', 'gi', lsp_telescope.implementations, {})
 vim.keymap.set('n', 'gbd', builtin.diagnostics, {})
 vim.keymap.set('n', 'gf', vim.diagnostic.open_float, {})
 vim.keymap.set('n', '<c-<space>>', vim.lsp.buf.signature_help, {})

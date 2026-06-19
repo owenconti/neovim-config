@@ -1,3 +1,5 @@
+local search = require('owen.telescope-search')
+
 require('telescope').setup({
   pickers = {
     find_files = {
@@ -31,15 +33,14 @@ require('telescope').setup({
 	    "--line-number",
 	    "--column",
 	    "--smart-case",
+      "--hidden",
+      "--no-ignore",
+      unpack(search.rg_exclude_globs()),
     },
     layout_strategy = "horizontal",
     theme = 'tokyonight-moon',
     path_display = {
       truncate = 3
-    },
-    file_ignore_patterns = {
-      "%.git/",
-      "%.DS_Store",
     },
     layout_config = {
       horizontal = {
