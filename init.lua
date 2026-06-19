@@ -14,6 +14,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup(require('owen.lazy-plugins'), {
+  -- Keep the lockfile inside the config repo (owen/ is symlinked to it) so
+  -- pinned plugin versions are versioned and portable across machines.
+  lockfile = vim.fn.stdpath('config') .. '/lua/owen/lazy-lock.json',
   defaults = {
     -- Match previous Packer `start` behavior so `require('owen.*')` below still works.
     lazy = false,
