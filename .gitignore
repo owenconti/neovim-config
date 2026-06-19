@@ -1,0 +1,14 @@
+# Dependencies (LSP/tooling scratch — not part of the config)
+node_modules/
+
+# Logs
+*.log
+nvim.log
+
+# macOS
+.DS_Store
+
+# Neovim runtime artifacts (in case they ever land here)
+undodir/
+*.swp
+*~
