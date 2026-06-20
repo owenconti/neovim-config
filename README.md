@@ -6,25 +6,34 @@ My self-contained Neovim config. The repo *is* the Neovim config directory —
 
 ## Setup on a new machine
 
+One-line bootstrap (installs deps + clones this config to `~/.config/nvim`):
+
 ```sh
-git clone git@github.com:owenconti/neovim-config.git ~/development/nvim-config
-cd ~/development/nvim-config
-./install.sh   # installs deps (Homebrew) + symlinks this repo to ~/.config/nvim
-nvim           # lazy.nvim, Mason, and treesitter self-provision on first run
+curl -fsSL https://raw.githubusercontent.com/owenconti/neovim-config/main/install.sh | bash
+nvim   # lazy.nvim, Mason, and treesitter self-provision on first run
+```
+
+Or clone first, then run the installer from the repo:
+
+```sh
+git clone https://github.com/owenconti/neovim-config.git ~/.config/nvim
+~/.config/nvim/install.sh
+nvim
 ```
 
 `install.sh` is idempotent (safe to re-run) and macOS/Homebrew-oriented. It
 installs `neovim`, `git`, `ripgrep`, `fd`, `lazygit`, `fzf`, `node`, `python3`,
-the Xcode CLT (C compiler for treesitter), and a Nerd Font — then links the
-config. PHP tooling is opt-in (uncomment in the script).
+the Xcode CLT (C compiler for treesitter), and a Nerd Font, then clones (or
+pulls) this config to `~/.config/nvim`. PHP tooling is opt-in (uncomment in the
+script).
 
 ### Manual setup
 
 If you'd rather not run the script, install the deps listed above with your
-package manager, then link the repo:
+package manager, then clone the repo straight into place:
 
 ```sh
-ln -s ~/development/nvim-config ~/.config/nvim   # or clone straight into ~/.config/nvim
+git clone https://github.com/owenconti/neovim-config.git ~/.config/nvim
 nvim
 ```
 

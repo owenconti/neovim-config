@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 #
 # install.sh — set up this Neovim config on a new macOS machine.
-# Idempotent: safe to re-run. Installs CLI deps via Homebrew and symlinks
-# this repo to ~/.config/nvim. lazy.nvim + Mason + treesitter self-provision
-# on first launch.
+# Idempotent: safe to re-run. Installs CLI deps via Homebrew and clones this
+# config directly to ~/.config/nvim. lazy.nvim + Mason + treesitter
+# self-provision on first launch.
+#
+# Bootstrap on a fresh machine:
+#   curl -fsSL https://raw.githubusercontent.com/owenconti/neovim-config/main/install.sh | bash
 #
 set -euo pipefail
 
-# --- resolve this repo's location (works regardless of clone path) ----------
-REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_URL="https://github.com/owenconti/neovim-config.git"
 NVIM_CONFIG="${XDG_CONFIG_HOME:-$HOME/.config}/nvim"
 
 log()  { printf '\033[1;34m==>\033[0m %s\n' "$*"; }
@@ -17,8 +19,8 @@ warn() { printf '\033[1;33m[!]\033[0m %s\n' "$*"; }
 # --- this config targets macOS + Homebrew -----------------------------------
 if [[ "$(uname -s)" != "Darwin" ]]; then
   warn "This installer targets macOS. On other systems, install the deps"
-  warn "listed in README.md with your package manager, then re-run with the"
-  warn "symlink step only."
+  warn "listed in README.md with your package manager, then clone this repo"
+  warn "to $NVIM_CONFIG yourself."
 fi
 
 # --- Homebrew ----------------------------------------------------------------
@@ -59,19 +61,21 @@ else
   log "Nerd Font already installed."
 fi
 
-# --- Link this repo as the Neovim config ------------------------------------
-if [[ -L "$NVIM_CONFIG" && "$(readlink "$NVIM_CONFIG")" == "$REPO_DIR" ]]; then
-  log "~/.config/nvim already points at this repo."
+# --- Clone this config directly to ~/.config/nvim ---------------------------
+if [[ -d "$NVIM_CONFIG/.git" ]] && \
+   git -C "$NVIM_CONFIG" remote get-url origin 2>/dev/null | grep -q "neovim-config"; then
+  log "Config already at $NVIM_CONFIG — pulling latest…"
+  git -C "$NVIM_CONFIG" pull --ff-only || warn "Couldn't fast-forward; leaving as-is."
 elif [[ -e "$NVIM_CONFIG" ]]; then
   backup="${NVIM_CONFIG}.backup-$(date +%Y%m%d%H%M%S)"
-  warn "Existing ~/.config/nvim found — backing up to $backup"
+  warn "Existing $NVIM_CONFIG found — backing up to $backup"
   mv "$NVIM_CONFIG" "$backup"
-  ln -s "$REPO_DIR" "$NVIM_CONFIG"
-  log "Linked $NVIM_CONFIG -> $REPO_DIR"
+  log "Cloning config to $NVIM_CONFIG…"
+  git clone "$REPO_URL" "$NVIM_CONFIG"
 else
   mkdir -p "$(dirname "$NVIM_CONFIG")"
-  ln -s "$REPO_DIR" "$NVIM_CONFIG"
-  log "Linked $NVIM_CONFIG -> $REPO_DIR"
+  log "Cloning config to $NVIM_CONFIG…"
+  git clone "$REPO_URL" "$NVIM_CONFIG"
 fi
 
 log "Done. Launch 'nvim' — lazy.nvim, Mason, and treesitter will self-provision on first run."
