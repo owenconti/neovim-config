@@ -110,6 +110,16 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 require('mason-lspconfig').setup({
+  -- Self-provision the servers this config wires up via vim.lsp.config above.
+  -- Without this, a fresh machine has no servers installed and LSP keymaps
+  -- (gr/gd/gi, etc.) silently no-op because nothing attaches.
+  ensure_installed = {
+    'ts_ls',
+    'volar',
+    'tailwindcss',
+    'stylelint_lsp',
+    'intelephense',
+  },
   automatic_enable = {
     -- Prefer oxlint; uninstall Mason `eslint` if you no longer need it.
     -- Psalm requires psalm.xml (or psalm.xml.dist) in the project; without it the LSP exits with code 1.
