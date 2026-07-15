@@ -62,7 +62,8 @@ vim.wo.signcolumn = 'yes'
 vim.wo.wrap = true
 vim.opt.smoothscroll = true
 
-vim.opt.background = 'light'
+-- background is auto-detected from the terminal via OSC 11 (see the
+-- github-nvim-theme spec). Don't hardcode it or detection can't win.
 vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99
 

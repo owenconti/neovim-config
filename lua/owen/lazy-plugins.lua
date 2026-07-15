@@ -25,7 +25,32 @@ local treesitter_languages = {
 
 return {
   { 'rose-pine/neovim', name = 'rose-pine', branch = 'main' },
-  { 'projekt0n/github-nvim-theme' },
+  {
+    'projekt0n/github-nvim-theme',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      -- Neovim auto-detects the terminal's background via an OSC 11 query at
+      -- startup (works over SSH/tmux, unlike OS-API dark-mode detection) and
+      -- blocks on the handshake before running user config, so &background is
+      -- already correct here for in-order terminals like Ghostty.
+      local function want()
+        return vim.o.background == 'dark' and 'github_dark_default' or 'github_light'
+      end
+      vim.cmd.colorscheme(want())
+      -- Fallback for terminals that answer the bg query out of order: Neovim
+      -- updates &background when the late OSC 11 reply arrives and fires
+      -- TermResponse (OptionSet does NOT fire for 'background'). Re-apply only
+      -- when the colorscheme no longer matches the detected background.
+      vim.api.nvim_create_autocmd('TermResponse', {
+        callback = function()
+          if vim.g.colors_name ~= want() then
+            vim.schedule(function() vim.cmd.colorscheme(want()) end)
+          end
+        end,
+      })
+    end,
+  },
 
   {
     'stevearc/conform.nvim',
@@ -321,24 +346,6 @@ return {
         let g:test#custom_transformations['remove_colors'] = function('TestRemoveColorsTransform')
         let g:test#transformation = 'remove_colors'
       ]])
-    end,
-  },
-
-  {
-    'f-person/auto-dark-mode.nvim',
-    branch = 'main',
-    config = function()
-      require('auto-dark-mode').setup({
-        update_interval = 1000,
-        set_dark_mode = function()
-          vim.opt.background = 'dark'
-          vim.cmd.colorscheme('github_dark_default')
-        end,
-        set_light_mode = function()
-          vim.opt.background = 'light'
-          vim.cmd.colorscheme('github_light')
-        end,
-      })
     end,
   },
 }
