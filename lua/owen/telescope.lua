@@ -5,6 +5,7 @@ require('telescope').setup({
     find_files = {
       hidden = true,
       follow = true,
+      find_command = search.rg_find_files_command,
       entry_index = {
         ordinal = function(entry)
           local path = entry.value or entry[1]
