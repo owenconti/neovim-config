@@ -15,16 +15,6 @@ vim.lsp.config('ts_ls', {
   cmd = { 'typescript-language-server', '--stdio' },
 })
 
-vim.lsp.config('volar', {
-  capabilities = capabilities,
-  filetypes = { 'vue' },
-  init_options = {
-    vue = {
-      hybridMode = false,
-    },
-  },
-})
-
 vim.lsp.config('tailwindcss', {
   capabilities = capabilities,
   settings = {
@@ -115,7 +105,6 @@ require('mason-lspconfig').setup({
   -- (gr/gd/gi, etc.) silently no-op because nothing attaches.
   ensure_installed = {
     'ts_ls',
-    'volar',
     'tailwindcss',
     'stylelint_lsp',
     'intelephense',
