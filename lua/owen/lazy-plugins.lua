@@ -162,69 +162,6 @@ return {
     end,
   },
 
-  {
-    'carlos-algms/agentic.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      { 'HakonHarnes/img-clip.nvim', opts = {} },
-    },
-    ---@type agentic.PartialUserConfig
-    opts = {
-      -- Built-ins include codex-acp, cursor-acp, claude-agent-acp, gemini-acp, opencode-acp, …
-      provider = 'codex-acp',
-    },
-    keys = {
-      {
-        '<C-\\>',
-        function()
-          require('agentic').toggle()
-        end,
-        mode = { 'n', 'v', 'i' },
-        desc = 'Toggle Agentic Chat',
-      },
-      {
-        "<C-'>",
-        function()
-          require('agentic').add_selection_or_file_to_context()
-        end,
-        mode = { 'n', 'v' },
-        desc = 'Add file or selection to Agentic context',
-      },
-      {
-        '<C-,>',
-        function()
-          require('agentic').new_session()
-        end,
-        mode = { 'n', 'v', 'i' },
-        desc = 'New Agentic Session',
-      },
-      {
-        '<A-i>r',
-        function()
-          require('agentic').restore_session()
-        end,
-        mode = { 'n', 'v', 'i' },
-        desc = 'Agentic restore session',
-      },
-      {
-        '<leader>ad',
-        function()
-          require('agentic').add_current_line_diagnostics()
-        end,
-        mode = { 'n' },
-        desc = 'Add current line diagnostics to Agentic',
-      },
-      {
-        '<leader>aD',
-        function()
-          require('agentic').add_buffer_diagnostics()
-        end,
-        mode = { 'n' },
-        desc = 'Add buffer diagnostics to Agentic',
-      },
-    },
-  },
-
   { 'tpope/vim-fugitive' },
   { 'kdheepak/lazygit.nvim' },
 
@@ -261,6 +198,31 @@ return {
     end,
   },
   { 'hrsh7th/nvim-cmp' },
+  {
+    'sindrets/diffview.nvim',
+    config = function()
+      local actions = require('diffview.actions')
+      -- <leader>e: focus the file list, or hide it when already in it
+      -- (matches the nvim-tree mapping). Replaces Diffview's own <leader>e/<leader>b.
+      local function files_toggle()
+        if vim.bo.filetype == 'DiffviewFiles' or vim.bo.filetype == 'DiffviewFileHistory' then
+          actions.toggle_files()
+        else
+          actions.focus_files()
+        end
+      end
+      local map = { { 'n', '<leader>e', files_toggle, { desc = 'Focus/hide file list' } } }
+      require('diffview').setup({
+        keymaps = { view = map, file_panel = map, file_history_panel = map },
+      })
+    end,
+  },
+  {
+    'milanglacier/minuet-ai.nvim',
+    config = function()
+      require('owen.minuet')
+    end,
+  },
   { 'voldikss/vim-floaterm' },
   { 'ldelossa/litee.nvim' },
 

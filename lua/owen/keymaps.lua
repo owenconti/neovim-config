@@ -47,8 +47,26 @@ utils.mapkey('', '<leader>gg', ':LazyGit<CR>')
 
 
 -- nvim-tree
-utils.mapkey('', '<leader>e', ':NvimTreeFindFileToggle<CR>')
+vim.keymap.set('n', '<leader>e', function()
+  local ok, lib = pcall(require, 'diffview.lib')
+  local view = ok and lib.get_current_view() or nil
+  if view then
+    if vim.bo.filetype == 'DiffviewFiles' then
+      vim.cmd('DiffviewToggleFiles')
+    else
+      vim.cmd('DiffviewFocusFiles')
+    end
+  elseif vim.bo.filetype == 'NvimTree' then
+    vim.cmd('NvimTreeClose')
+  else
+    vim.cmd('NvimTreeFindFile')
+  end
+end, { desc = 'Focus file tree, or close it when focused' })
 utils.mapkey('', '<leader>E', ':NvimTreeToggle<CR>')
+
+-- diffview: branch changes vs main, and close
+utils.mapkey('n', '<leader>gm', ':DiffviewOpen main...HEAD<CR>')
+utils.mapkey('n', '<leader>gM', ':DiffviewClose<CR>')
 
 -- trouble
 utils.mapkey("", "gT", ":TroubleToggle<cr>")
@@ -101,6 +119,7 @@ vim.keymap.set('n', '<leader>ls', "<cmd>lua require('telescope.builtin').lsp_doc
 vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, {})
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, {})
 vim.keymap.set('n', '<leader>lr', vim.lsp.buf.rename, {})
+vim.keymap.set('n', '<leader>le', vim.diagnostic.open_float, { desc = 'Show diagnostic under cursor' })
 
 -- git commands
 utils.mapkey("", '<leader>gb', ':Git blame<CR>')
